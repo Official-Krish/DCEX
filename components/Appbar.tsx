@@ -14,7 +14,7 @@ export default function Appbar() {
         <a href="#" className="text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Support</a>
         <a href="#" className="text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">License</a>
         
-        {session.data?.user ? <Button onClick={() => signOut()}>Sign out</Button> : <Button onClick={() => signIn("google")}>Sign in</Button>}
+        {session.data?.user ? <Button onClick={() => signOut()}>Sign out</Button> : <Button onClick={() => signIn()}>Sign in</Button>}
       </div>
     </div>
   );

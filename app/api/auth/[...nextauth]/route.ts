@@ -3,19 +3,6 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import {Keypair} from "@solana/web3.js";
 
-enum Provider {
-    google = "GOOGLE"
-}
-
-function getProvider(provider: string): Provider {
-    switch (provider) {
-        case "google":
-            return Provider.google;
-        default:
-            return Provider.google;
-    }
-}
-
 const handler = NextAuth({
     providers: [
         GoogleProvider({
@@ -43,7 +30,9 @@ const handler = NextAuth({
                 await prisma.user.create({
                     data: {
                         username: email,
-                        provider: getProvider(account.provider),
+                        name: profile?.name,
+                        profileImage: (profile as any)?.picture || "Https://www.gravatar.com/avatar/",
+                        provider: "GOOGLE",
                         solWallet: {
                             create: {
                                 publicKey: publicKey,
