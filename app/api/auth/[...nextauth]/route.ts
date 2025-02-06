@@ -1,56 +1,6 @@
-import prisma from "@/lib/db";
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import {Keypair} from "@solana/web3.js";
+import { authConfig } from "@/lib/auth"
+import NextAuth from "next-auth"
 
-const handler = NextAuth({
-    providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-        }),
-    ],
-    callbacks: {
-        async signIn({user, account, profile, email, credentials}) {
-            if (account?.provider === "google") {
-                const email = user.email;
-                if(!email) return false;
-
-                const userDb = await prisma.user.findFirst({
-                    where: {
-                        username: email
-                    }
-                });
-                if(userDb) return true;
-
-                const keypair = Keypair.generate();
-                const publicKey = keypair.publicKey.toBase58();
-                const privateKey = keypair.secretKey;
-
-                await prisma.user.create({
-                    data: {
-                        username: email,
-                        name: profile?.name,
-                        profileImage: (profile as any)?.picture || "Https://www.gravatar.com/avatar/",
-                        provider: "GOOGLE",
-                        solWallet: {
-                            create: {
-                                publicKey: publicKey,
-                                privateKey: privateKey.toString(),
-                            }
-                        },
-                        inrWallet: {
-                            create: {
-                                balance: 0,
-                            }
-                        }
-                    }
-                });
-                return true;
-            }
-            return false;
-        },
-    },
-})
+const handler = NextAuth(authConfig)
 
 export { handler as GET, handler as POST }
