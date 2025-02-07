@@ -1,4 +1,5 @@
 "use state"
+import { useTokens } from "@/app/api/hooks/useTokens";
 import { Check, Copy, Wallet } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -8,11 +9,20 @@ export default function UserInfo({publicKey}: {publicKey: string}) {
     const { data: session } = useSession();
     const [copied, setCopied] = useState(false);
 
+    const { tokenBalances, loading } = useTokens(publicKey);
+
     const handleCopy = () => {
         navigator.clipboard.writeText(publicKey);
         setCopied(true);
         setTimeout(() => setCopied(false), 3000);
     }
+
+    if (loading) {
+        return <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
+    }
+
     return <div>
         <div className="flex items-center py-6 px-6">
             {session?.user?.image ? (
@@ -42,7 +52,7 @@ export default function UserInfo({publicKey}: {publicKey: string}) {
 
         <div className="px-6 flex py-3 items-center justify-between">
             <div className="flex">
-                <h1 className="text-7xl font-bold">$0.00</h1>
+                <h1 className="text-7xl font-bold">{tokenBalances?.totalBalance}</h1>
                 <h2 className="text-4xl text-slate-500 font-bold ml-1 flex items-end">USD</h2>
             </div>
             <button className={`${!copied ? "flex items-center px-4 py-2 bg-slate-200 rounded-full text-xs font-bold text-slate-500 hover:bg-slate-300": "flex items-center px-4 py-2 bg-slate-800 rounded-full text-xs font-bold text-slate-100 hover:bg-slate-700"}`}
@@ -61,5 +71,8 @@ export default function UserInfo({publicKey}: {publicKey: string}) {
                 )}
             </button>
         </div>
+        {/* <div className="flex items-center">
+            {JSON.stringify(tokenBalances?.tokens)}
+        </div> */}
     </div>
 }
