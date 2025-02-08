@@ -21,10 +21,10 @@ export default function Swap({ publicKey }: { publicKey: string }) {
         setFetchingQuote(true);
         try {
             const response = await axios.get(
-                `https://api.jup.ag/swap/v1/quote?inputMint=${baseAsset.mint}&outputMint=${quoteAsset.mint}&amount=${Number(baseAmount) * (10 ** baseAsset.decimals)}&slippageBps=50&restrictIntermediateTokens=true`
+                `/api/quote?inputMint=${baseAsset.mint}&outputMint=${quoteAsset.mint}&amount=${Number(baseAmount) * (10 ** baseAsset.decimals)}`
             );
-            setQuoteAmount((Number(response.data.outAmount) / Number(10 ** quoteAsset.decimals)).toString());
-            setQuoteResponse(response.data);
+            setQuoteAmount((Number(response.data.data.outAmount) / Number(10 ** quoteAsset.decimals)).toString());
+            setQuoteResponse(response.data.data);
         } catch (error) {
             console.log(error);
         } finally {
@@ -43,7 +43,7 @@ export default function Swap({ publicKey }: { publicKey: string }) {
         try {
             const response = await axios.post(`/api/swap`, {
                 quoteResponse: quoteResponse,
-            })
+            });
             if (response.data.txnId) {
                 alert("Swap done!");
             }

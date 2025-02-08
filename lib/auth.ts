@@ -19,6 +19,7 @@ export const authConfig = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
         }),
     ],
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         session: ({ session, token }: any): session => {
             const newSession: session = session as session;
