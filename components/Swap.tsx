@@ -4,6 +4,7 @@ import { ArrowUpDown, Check, Loader2, MoveLeft } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import axios from "axios";
+import { useDebounce } from "@/app/api/hooks/useDebounce";
 
 export default function Swap({ publicKey }: { publicKey: string }) {
     const { tokenBalances, loading } = useTokens(publicKey);
@@ -14,16 +15,29 @@ export default function Swap({ publicKey }: { publicKey: string }) {
     const [fetchingQuote, setFetchingQuote] = useState(false);
     const [quoteResponse, setQuoteResponse] = useState(null);
     
-    useEffect(() => {
+    const getQuote = async () => {
         if (!baseAsset || !baseAmount || !quoteAsset) return;
+        
         setFetchingQuote(true);
-        axios.get(`https://api.jup.ag/swap/v1/quote?inputMint=${baseAsset.mint}&outputMint=${quoteAsset.mint}&amount=${Number(baseAmount)* (10 ** baseAsset.decimals)}&slippageBps=50&restrictIntermediateTokens=true`)
-            .then(res => {
-                setQuoteAmount((Number(res.data.outAmount) / Number(10 ** quoteAsset.decimals)).toString())
-                setQuoteResponse(res.data);
-                setFetchingQuote(false);
-            })
-    }, [baseAsset, baseAmount, quoteAsset])
+        try {
+            const response = await axios.get(
+                `https://api.jup.ag/swap/v1/quote?inputMint=${baseAsset.mint}&outputMint=${quoteAsset.mint}&amount=${Number(baseAmount) * (10 ** baseAsset.decimals)}&slippageBps=50&restrictIntermediateTokens=true`
+            );
+            setQuoteAmount((Number(response.data.outAmount) / Number(10 ** quoteAsset.decimals)).toString());
+            setQuoteResponse(response.data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setFetchingQuote(false);
+        }
+    };
+
+    const debouncedGetQuote = useDebounce(getQuote, 500);
+
+    useEffect(() => {
+        debouncedGetQuote();
+    }, [baseAsset, baseAmount, quoteAsset]);
+
 
     const SwapButton = async () => {
         try {
