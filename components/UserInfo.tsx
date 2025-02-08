@@ -71,8 +71,5 @@ export default function UserInfo({publicKey}: {publicKey: string}) {
                 )}
             </button>
         </div>
-        {/* <div className="flex items-center">
-            {JSON.stringify(tokenBalances?.tokens)}
-        </div> */}
     </div>
 }

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { UserTokens } from "./UserToken";
 
-export default function Send ({ publicKey }: {publicKey: string}) {
+export default function TokenList ({ publicKey }: {publicKey: string}) {
     const [ selected, setSelected ] = useState<"tokens" | "nfts" | "activity">("tokens");
     return (
         <div className="bg-slate-100 py-6 w-full h-full border-l-1 border-r-1 border-b-1 border-slate-200 rounded-lg shadow-lg"> 
