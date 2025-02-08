@@ -121,33 +121,6 @@ function SwapInputRow({ title, onSelect, Subtitle, inputDisabled, onAmountChange
     </div>
 }
 
-
-// function AssetSelector({ onSelect, selectedToken }: {
-//     onSelect: (asset: TokenDetails) => void;
-//     selectedToken: TokenDetails;
-// }) {
-//     return <div className="w-24">
-//         <select onChange={(e)=> {
-//             const selectedToken = SUPPORTED_TOKENS.find(x => x.name === e.target.value);
-//             if (selectedToken) {
-//                 onSelect(selectedToken);
-//             }
-//         }} id="token" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-//             {SUPPORTED_TOKENS.map(token => 
-//             <option key={token.name} value={token.name} className="flex items-center">
-//                 <img 
-//                     src={token.image} 
-//                     alt={token.name} 
-//                     width={10} 
-//                     height={10} 
-//                     className="rounded-full mr-2" 
-//                 />
-//                 {token.name}
-//             </option>)}
-//         </select>
-//     </div>
-// }
-
 function AssetSelector({ onSelect, selectedToken }: {
     onSelect: (asset: TokenDetails) => void;
     selectedToken:  TokenDetails;
