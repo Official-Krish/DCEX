@@ -1,6 +1,6 @@
 import { useTokens } from "@/app/api/hooks/useTokens";
 import { SUPPORTED_TOKENS, TokenDetails } from "@/lib/tokens";
-import { ArrowUpDown, MoveLeft } from "lucide-react"
+import { ArrowUpDown, Check, Loader2, MoveLeft } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import axios from "axios";
@@ -24,6 +24,21 @@ export default function Swap({ publicKey }: { publicKey: string }) {
                 setFetchingQuote(false);
             })
     }, [baseAsset, baseAmount, quoteAsset])
+
+    const SwapButton = async () => {
+        try {
+            const response = await axios.post(`/api/swap`, {
+                quoteResponse: quoteResponse,
+            })
+            if (response.data.txnId) {
+                alert("Swap done!");
+            }
+        } catch(e) {
+            console.log(e);
+        }
+    }
+
+    if (loading) return <div className="flex justify-center items-center">{<Loader2 className="animate-spin h-8 w-8" />}</div>
 
     return <div className="bg-slate-100 py-6 w-full h-full border-l-1 border-r-1 border-b-1 border-slate-200 rounded-lg shadow-lg">
         <div className="flex px-6 text-slate-700 cursor-pointer hover:text-slate-500">
@@ -87,6 +102,14 @@ export default function Swap({ publicKey }: { publicKey: string }) {
                     </div>
                 </div>}
             />
+        </div>
+
+        <div className="flex justify-between px-6 py-3 ">
+            <button className="border shadow-lg border-slate-300 rounded-lg px-4 py-2 text-slate-600">Cancel</button>
+            <button className={`flex justify-center items-center bg-black text-white border border-slate-300 rounded-lg px-6 py-2 ${fetchingQuote ? "opacity-50 cursor-not-allowed" : ""}`} onClick={SwapButton}>
+                {<Check className="w-5 h-5 mr-2"/>} 
+                Confirm & Swap
+            </button>
         </div>
     </div>
 }
