@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dcex
+
+Dcex is a decentralized exchange platform similar to TipLink, built on the **Solana blockchain**. It integrates **Jupiter Aggregator (jup.ag)** for optimal token swaps and is developed using **Next.js**, **TypeScript**, and **Tailwind CSS** for a modern and efficient user experience.
+
+## Features
+
+- **Solana-Powered:** Fast and low-cost transactions leveraging the Solana blockchain.
+- **Jupiter Aggregator Integration:** Ensures the best token swap rates from multiple liquidity sources.
+- **Non-Custodial:** Users maintain full control of their funds with secure wallet connections.
+- **Next.js + TypeScript:** Optimized for performance, scalability, and maintainability.
+- **Tailwind CSS:** Modern UI/UX design with responsive styling.
+
+## Tech Stack
+
+- **Blockchain:** Solana
+- **Smart Contract Interaction:** Solana Web3.js, Anchor
+- **Swap API:** [Jupiter Aggregator (jup.ag)](https://jup.ag/)
+- **Frontend Framework:** Next.js (React)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [Yarn](https://yarnpkg.com/) or npm or pnpm
+- [Solana CLI](https://docs.solana.com/cli/install-solana-cli)
+
+### Installation
+
+```sh
+# Clone the repository
+git clone https://github.com/Official-Krish/DCEX
+cd dcex
+
+# Install dependencies
+pnpm install  
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file in the root directory and configure the following:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```ini
+NEXT_PUBLIC_RPC_URL=<Your Solana RPC URL>
+NEXT_PUBLIC_JUPITER_API_URL=https://quote-api.jup.ag/v6/quote
+```
 
-## Learn More
+### Running the Development Server
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+yarn dev  # or npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) to see the app in action.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+1. Connect your Solana wallet (Phantom, Solflare, or any supported adapter).
+2. Select tokens for swapping using the integrated Jupiter API.
+3. Execute transactions seamlessly on the Solana blockchain.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To deploy the application, use Vercel or another hosting provider:
+
+```sh
+yarn build  # or npm run build
+yarn start  # or npm run start
+```
+
+## Contribution
+
+Contributions are welcome! To contribute:
+- Fork the repository.
+- Create a new feature branch.
+- Submit a PR for review.
+
+## License
+
+MIT License. See `LICENSE` for details.
+
+## Acknowledgments
+
+- [Solana](https://solana.com/)
+- [Jupiter Aggregator](https://jup.ag/)
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
