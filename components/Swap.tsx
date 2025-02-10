@@ -6,7 +6,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import axios from "axios";
 import { useDebounce } from "@/app/api/hooks/useDebounce";
 
-export default function Swap({ publicKey }: { publicKey: string }) {
+export default function Swap({ publicKey, onClose }: { publicKey: string, onClose: () => void }) {
     const { tokenBalances, loading } = useTokens(publicKey);
     const [ baseAsset, setBaseAsset ] = useState(SUPPORTED_TOKENS[0]);
     const [ baseAmount, setBaseAmount ] = useState<string>();
@@ -56,7 +56,7 @@ export default function Swap({ publicKey }: { publicKey: string }) {
 
     return <div className="bg-slate-100 py-6 w-full h-full border-l-1 border-r-1 border-b-1 border-slate-200 rounded-lg shadow-lg">
         <div className="flex px-6 text-slate-700 cursor-pointer hover:text-slate-500">
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer" onClick={onClose}>
                 <MoveLeft className="w-4 h-4 mr-1" />
                 <h2 className="text-sm font-bold">Back</h2>
             </div>

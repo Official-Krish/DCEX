@@ -7,7 +7,7 @@ export function UserTokens({ publicKey }: { publicKey: string }) {
     if (loading) return <div className="flex justify-center items-center">{<Loader2 className="animate-spin h-8 w-8" />}</div>
 
     return (
-        <div>
+        <div key={publicKey}>
             {tokenBalances?.tokens?.map((token, index) => (
                 <div className="flex justify-between mt-2">
                     <div key={index} className="flex py-3 px-4">

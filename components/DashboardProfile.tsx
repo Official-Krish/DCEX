@@ -61,7 +61,7 @@ export default function DashboardProfile({ publicKey }: { publicKey: string }) {
             </div>
             <div className="flex justify-center w-[800px] flex-grow min-h-[300px] pb-10">
                 {tab === "tokens" && <TokenList publicKey={publicKey} />}
-                {tab === "Swap" && <Swap publicKey={publicKey} />}
+                {tab === "Swap" && <Swap publicKey={publicKey} onClose={() => setTab("tokens")} />}
             </div>
         </div>
     </div>
