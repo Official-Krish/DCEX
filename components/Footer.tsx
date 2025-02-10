@@ -32,7 +32,7 @@ export default function Footer() {
                         <h4 className="text-gray-900 font-semibold mb-4">Community</h4>
                         <ul className="space-y-2 text-gray-600">
                             <li><a href="#" className="hover:text-blue-600 transition-colors">Twitter</a></li>
-                            <li><a href="#" className="hover:text-blue-600 transition-colors">Telegram</a></li>
+                            <li><a href="https://github.com/Official-Krish" className="hover:text-blue-600 transition-colors">Github</a></li>
                             <li><a href="#" className="hover:text-blue-600 transition-colors">Discord</a></li>
                         </ul>
                     </div>
