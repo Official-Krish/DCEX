@@ -4,6 +4,7 @@ import PrimaryButton from "./PrimaryButton";
 import TokenList from "./TokenList";
 import UserInfo from "./UserInfo";
 import Swap from "./Swap";
+import Send from "./Send";
 
 enum Options {
     Send = "Send",
@@ -59,9 +60,10 @@ export default function DashboardProfile({ publicKey }: { publicKey: string }) {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center w-[800px] flex-grow min-h-[300px] pb-10">
+            <div className="flex justify-center w-[800px] flex-grow min-h-[300px] pb-10 mt-6">
                 {tab === "tokens" && <TokenList publicKey={publicKey} />}
                 {tab === "Swap" && <Swap publicKey={publicKey} onClose={() => setTab("tokens")} />}
+                {tab === "Send" && <Send onclose={() => setTab("tokens")} publicKey={publicKey} />}
             </div>
         </div>
     </div>

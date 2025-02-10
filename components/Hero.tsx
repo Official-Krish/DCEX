@@ -5,17 +5,14 @@ import { stats, StatsCard } from "./StatsCard";
 import Google from "./ui/Google";
 import { working, WorkingSection } from "./Working";
 import { useRouter } from 'next/navigation'
-import { useEffect } from "react";
 
 export default function Hero() {
     const session = useSession();
     const router = useRouter();
 
-    useEffect(() => {
-        if (session.data?.user) {
-          router.push('/new-route');
-        }
-    }, [router]);
+    if (session.data?.user) {
+        return router.push('/dashboard');
+    }
 
     return (
         <div>
