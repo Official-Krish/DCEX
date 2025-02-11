@@ -34,8 +34,9 @@ export async function POST(req: NextRequest) {
     try {
         const data = await req.json();
         const { recipientAddress, amount } = data;
+        const sendOption = req.nextUrl.searchParams.get("sendOption");
 
-        if (!recipientAddress || !amount) {
+        if (!recipientAddress || !amount || !sendOption) {
             return NextResponse.json({
                 message: "Missing required fields"
             }, {
@@ -54,7 +55,19 @@ export async function POST(req: NextRequest) {
 
         let recipientPubKey: PublicKey;
         try {
-            recipientPubKey = new PublicKey(recipientAddress);
+            if(sendOption === "address") {
+                recipientPubKey = new PublicKey(recipientAddress);
+            } else if(sendOption === "email") {
+                // create a new account with the help of email
+                const publicKey = new PublicKey(await createNewAccount(recipientAddress));
+                recipientPubKey = publicKey;
+            } else {
+                return NextResponse.json({
+                    message: "Invalid send option"
+                }, {
+                    status: 400
+                });
+            }
         } catch {
             return NextResponse.json({
                 message: "Invalid recipient address"
@@ -88,6 +101,8 @@ export async function POST(req: NextRequest) {
                 status: 400
             });
         }
+
+        
 
         const transaction = new Transaction();
         transaction.add(
@@ -135,4 +150,31 @@ function getPrivateKeyFromDb(privateKey: string): Keypair {
     } catch (e) {
         throw new Error("Failed to process private key");
     }
+}
+
+async function createNewAccount(email: string): Promise<string> {
+    const keypair = Keypair.generate();
+    const publicKey = keypair.publicKey.toBase58();
+    const privateKey = keypair.secretKey;
+
+    await prisma.user.create({
+        data: {
+            username: email,
+            name: email,
+            profileImage: "https://www.gravatar.com/avatar/",
+            provider: "GOOGLE",
+            solWallet: {
+                create: {
+                    publicKey: publicKey,
+                    privateKey: privateKey.toString(),
+                }
+            },
+            inrWallet: {
+                create: {
+                    balance: 0,
+                }
+            }
+        }
+    });
+    return publicKey;
 }

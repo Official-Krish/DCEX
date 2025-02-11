@@ -7,6 +7,7 @@ export async function GET (req: NextRequest){
     const outputMint = req.nextUrl.searchParams.get("outputMint");
 
     if (!amount || !inputMint || !outputMint) return;
+    console.log("data",inputMint, outputMint, amount);
 
     try{
         const res =  await axios.get(

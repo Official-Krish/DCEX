@@ -1,10 +1,11 @@
 import { ArrowLeft, ArrowRight, Layers2, Mail, Wand } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AssetSelector from "./AssetSelector";
 import { SUPPORTED_TOKENS } from "@/lib/tokens";
 import { useTokens } from "@/app/api/hooks/useTokens";
 import ConfirmButton from "./Buttons/ConfirmButton";
 import axios from "axios";
+import { useDebounce } from "@/app/api/hooks/useDebounce";
 
 type sendOptions = "link" | "email" | "address";
 
@@ -73,14 +74,20 @@ export default function Send({ publicKey, onclose }: { publicKey: string, onclos
                     <div>
                         {sendOption === "link" && <div>Link</div>}
                         {sendOption === "email" && <SendToAddress
+                            title="Send to Email"
+                            description="Send funds to an email you specify:"
                             onclose={() => setSteps(0)} 
                             tokenBalances={tokenBalances}
                             Recieptant_Option="Recipient's Email"
+                            sendVia={sendOption}
                         />}
-                        {sendOption === "address" && <SendToAddress 
+                        {sendOption === "address" && <SendToAddress
+                            title="Send to Solana Wallet Address "
+                            description="Send funds to a Solana wallet address you specify."
                             onclose={() => setSteps(0)} 
                             tokenBalances={tokenBalances}
                             Recieptant_Option="Recipient's Solana Address"
+                            sendVia="address"
                         />}
                     </div>
                 }
@@ -113,17 +120,52 @@ function SendOptions({ icon, title, description, topBorderEnabled, bottomBorderE
     )
 }
 
-function SendToAddress ({ onclose, tokenBalances, Recieptant_Option }: { onclose: () => void, tokenBalances: any, Recieptant_Option: string }) {
+function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, sendVia, title, description }: { 
+    onclose: () => void, 
+    tokenBalances: any, 
+    Recieptant_Option: string, 
+    sendVia: string,
+    title: string,
+    description: string
+}) {
     const [asset, setAsset] = useState(SUPPORTED_TOKENS[0]);
     const [amount, setAmount] = useState("");
     const [recipient, setRecipient] = useState("");
+    const [estimatedAmount, setEstimatedAmount] = useState("0");
+
+
+    const getQuote = async () => {
+        const inputMint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+        const outputMint = "So11111111111111111111111111111111111111112";
+        if (isNaN(Number(amount)) || Number(amount) <= 0) {
+            alert("Please enter a valid amount");
+            return;
+        }
+        const quoteAmount = Number(amount) * 1000000;
+
+        try {
+            const response = await axios.get(
+                `/api/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${quoteAmount}` 
+            );
+            setEstimatedAmount((Number(response.data.data.outAmount) / Number(10 ** 9)).toString());
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const debouncedGetQuote = useDebounce(getQuote, 1000);
+
+    useEffect(() => {
+        debouncedGetQuote();
+    }, [amount, asset]);
 
     const sendSOL = async () => {
+        console.log("Sending", recipient, amount, sendVia);
         if (!recipient || !amount) return;
         try {
-            const response = await axios.post(`/api/send`, {
+            const response = await axios.post(`/api/send?sendOption=${sendVia}`, {
                 recipientAddress: recipient,
-                amount: amount
+                amount: amount,
             });
             if (response.data.signature) {
                 alert("Transaction sent!");
@@ -138,8 +180,8 @@ function SendToAddress ({ onclose, tokenBalances, Recieptant_Option }: { onclose
             <button className="flex text-slate-500 font-semibold items-center" onClick={() => onclose()}>{<ArrowLeft className="w-4 h-4 mr-1"/>}
                 Back
             </button>
-            <h1 className="text-3xl font-semibold text-slate-700 py-3">Send to Solana Wallet Address</h1>
-            <h2 className="text-sm font-normal text-slate-500">Send funds to a Solana wallet address you specify.</h2>
+            <h1 className="text-3xl font-semibold text-slate-700 py-3">{title}</h1>
+            <h2 className="text-sm font-normal text-slate-500">{description}</h2>
 
             <div className="w-full py-4">
                 {<AssetSelector onSelect={(asset) => setAsset(asset)} selectedToken={SUPPORTED_TOKENS[0]}/>}
@@ -169,9 +211,14 @@ function SendToAddress ({ onclose, tokenBalances, Recieptant_Option }: { onclose
                 </div>
             </div>
 
+            <div className="flex justify-center pb-2">
+                <span className="text-slate-400 text-sm font-semibold">~ {estimatedAmount} {asset.name}</span>
+            </div>
+
+
             <div className="flex justify-center">
                 <div className="flex items-center w-full px-4 py-2 rounded-2xl border border-gray-300 bg-white shadow-sm justify-between">
-                    <div className="flex items-center w-full justify-center">
+                    <div className="items-center w-full justify-center">
                         <input
                             type="text"
                             value={recipient}
