@@ -3,6 +3,8 @@ import { useState } from "react"
 import AssetSelector from "./AssetSelector";
 import { SUPPORTED_TOKENS } from "@/lib/tokens";
 import { useTokens } from "@/app/api/hooks/useTokens";
+import ConfirmButton from "./Buttons/ConfirmButton";
+import axios from "axios";
 
 type sendOptions = "link" | "email" | "address";
 
@@ -70,8 +72,16 @@ export default function Send({ publicKey, onclose }: { publicKey: string, onclos
                 {steps === 1 && 
                     <div>
                         {sendOption === "link" && <div>Link</div>}
-                        {sendOption === "email" && <div>Email</div>}
-                        {sendOption === "address" && <SendToAddress publicKey={publicKey} onclose={onclose} tokenBalances={tokenBalances}/>}
+                        {sendOption === "email" && <SendToAddress
+                            onclose={() => setSteps(0)} 
+                            tokenBalances={tokenBalances}
+                            Recieptant_Option="Recipient's Email"
+                        />}
+                        {sendOption === "address" && <SendToAddress 
+                            onclose={() => setSteps(0)} 
+                            tokenBalances={tokenBalances}
+                            Recieptant_Option="Recipient's Solana Address"
+                        />}
                     </div>
                 }
             </div>
@@ -103,10 +113,26 @@ function SendOptions({ icon, title, description, topBorderEnabled, bottomBorderE
     )
 }
 
-function SendToAddress ({ publicKey, onclose, tokenBalances }: { publicKey: string, onclose: () => void, tokenBalances: any }) {
+function SendToAddress ({ onclose, tokenBalances, Recieptant_Option }: { onclose: () => void, tokenBalances: any, Recieptant_Option: string }) {
     const [asset, setAsset] = useState(SUPPORTED_TOKENS[0]);
     const [amount, setAmount] = useState("");
     const [recipient, setRecipient] = useState("");
+
+    const sendSOL = async () => {
+        if (!recipient || !amount) return;
+        try {
+            const response = await axios.post(`/api/send`, {
+                recipientAddress: recipient,
+                amount: amount
+            });
+            if (response.data.signature) {
+                alert("Transaction sent!");
+            }
+        } catch(e) {
+            alert("Transaction failed!");
+        }
+    }
+
     return (
         <div className="h-full">
             <button className="flex text-slate-500 font-semibold items-center" onClick={() => onclose()}>{<ArrowLeft className="w-4 h-4 mr-1"/>}
@@ -131,7 +157,7 @@ function SendToAddress ({ publicKey, onclose, tokenBalances }: { publicKey: stri
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
                                 placeholder="$0 USD"
-                                className="text-gray-700 text-3xl bg-transparent focus:outline-none text-center flex w-full" 
+                                className="text-gray-700 text-3xl bg-transparent focus:outline-none text-center flex w-full ml-14" 
                             />
                             {amount !== "" && <div className="text-gray-700 text-3xl">USD</div>}
                         </div>
@@ -150,11 +176,18 @@ function SendToAddress ({ publicKey, onclose, tokenBalances }: { publicKey: stri
                             type="text"
                             value={recipient}
                             onChange={(e) => setRecipient(e.target.value)}
-                            placeholder="Recipient's Solana Address"
+                            placeholder={`${Recieptant_Option}`}
                             className="text-gray-700 text-lg bg-transparent focus:outline-none text-center flex w-full" 
                         />
                     </div>
                 </div>
+            </div>
+
+            <div className="mt-8 flex justify-between px-6 py-3 ">
+                <button className="border shadow-lg border-slate-300 rounded-lg px-4 py-2 text-slate-600" onClick={() => onclose()}>Cancel</button>
+                <ConfirmButton onClick={() => sendSOL()} loading={(!amount || !recipient || !asset) ? "opacity-50 cursor-not-allowed" : ""}>
+                    Confirm & Send
+                </ConfirmButton>
             </div>
         </div>
     )

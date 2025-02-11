@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import axios from "axios";
 import { useDebounce } from "@/app/api/hooks/useDebounce";
+import ConfirmButton from "./Buttons/ConfirmButton";
 
 export default function Swap({ publicKey, onClose }: { publicKey: string, onClose: () => void }) {
     const { tokenBalances, loading } = useTokens(publicKey);
@@ -119,11 +120,10 @@ export default function Swap({ publicKey, onClose }: { publicKey: string, onClos
         </div>
 
         <div className="flex justify-between px-6 py-3 ">
-            <button className="border shadow-lg border-slate-300 rounded-lg px-4 py-2 text-slate-600">Cancel</button>
-            <button className={`flex justify-center items-center bg-black text-white border border-slate-300 rounded-lg px-6 py-2 ${fetchingQuote ? "opacity-50 cursor-not-allowed" : ""}`} onClick={SwapButton}>
-                {<Check className="w-5 h-5 mr-2"/>} 
+            <button className="border shadow-lg border-slate-300 rounded-lg px-4 py-2 text-slate-600" onClick={onClose}>Cancel</button>
+            <ConfirmButton onClick={SwapButton} loading={(fetchingQuote || baseAmount === "") ? "opacity-50 cursor-not-allowed" : ""}>
                 Confirm & Swap
-            </button>
+            </ConfirmButton>
         </div>
     </div>
 }

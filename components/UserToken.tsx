@@ -9,9 +9,9 @@ export function UserTokens({ publicKey }: { publicKey: string }) {
     return (
         <div key={publicKey}>
             {tokenBalances?.tokens?.map((token, index) => (
-                <div className="flex justify-between mt-2">
+                <div key={index} className="flex justify-between mt-2">
                     <div key={index} className="flex py-3 px-4">
-                        <div className="flex items-center">
+                        <div key={index} className="flex items-center">
                             <img 
                                 src={token.image} 
                                 alt={token.name} 
@@ -19,7 +19,7 @@ export function UserTokens({ publicKey }: { publicKey: string }) {
                                 height={30} 
                                 className="rounded-full mr-2" 
                             />
-                            <div>
+                            <div key={index}>
                                 <h2 className="text-sm font-bold">{token.name === "SOL" ? "Solana" : token.name}</h2>
                                 <h2 className="text-xs font-bold text-slate-400">1 {token.name} = {token.price}</h2>
                             </div>

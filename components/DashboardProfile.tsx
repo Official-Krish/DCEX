@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
-import PrimaryButton from "./PrimaryButton";
+import PrimaryButton from "./Buttons/PrimaryButton";
 import TokenList from "./TokenList";
 import UserInfo from "./UserInfo";
 import Swap from "./Swap";
 import Send from "./Send";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 enum Options {
     Send = "Send",
@@ -19,6 +21,13 @@ type tabs = "tokens" | "Send" | "AddFunds" | "Withdraw" | "Swap";
 export default function DashboardProfile({ publicKey }: { publicKey: string }) {
     const [option, setOption] = useState<Options>(Options.Send);
     const [ tab, setTab ] = useState<tabs>("tokens");
+    const session = useSession();
+    const router = useRouter();
+
+    if (!session.data?.user){
+        alert("Please login to access your dashboard");
+        router.push("/");
+    }
 
     return <div>
         <div className="bg-slate-100 flex flex-col justify-center items-center ">
