@@ -7,6 +7,7 @@ import Swap from "./Swap";
 import Send from "./Send";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Withdraw from "./Withdraw";
 
 enum Options {
     Send = "Send",
@@ -73,6 +74,7 @@ export default function DashboardProfile({ publicKey }: { publicKey: string }) {
                 {tab === "tokens" && <TokenList publicKey={publicKey} />}
                 {tab === "Swap" && <Swap publicKey={publicKey} onClose={() => setTab("tokens")} />}
                 {tab === "Send" && <Send onclose={() => setTab("tokens")} publicKey={publicKey} />}
+                {tab === "Withdraw" && <Withdraw onclose={() => setTab("tokens")} publicKey={publicKey} />}
             </div>
         </div>
     </div>

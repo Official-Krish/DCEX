@@ -96,7 +96,7 @@ export default function Send({ publicKey, onclose }: { publicKey: string, onclos
     )
 }
 
-function SendOptions({ icon, title, description, topBorderEnabled, bottomBorderEnabled, onclick }: { 
+export function SendOptions({ icon, title, description, topBorderEnabled, bottomBorderEnabled, onclick }: { 
     icon: React.ReactNode, 
     title: string, 
     description: string, 
@@ -120,7 +120,7 @@ function SendOptions({ icon, title, description, topBorderEnabled, bottomBorderE
     )
 }
 
-function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, sendVia, title, description }: { 
+export function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, sendVia, title, description }: { 
     onclose: () => void, 
     tokenBalances: any, 
     Recieptant_Option: string, 
@@ -138,7 +138,6 @@ function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, sendVia, ti
         const inputMint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
         const outputMint = "So11111111111111111111111111111111111111112";
         if (isNaN(Number(amount)) || Number(amount) <= 0) {
-            alert("Please enter a valid amount");
             return;
         }
         const quoteAmount = Number(amount) * 1000000;
@@ -157,7 +156,7 @@ function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, sendVia, ti
 
     useEffect(() => {
         debouncedGetQuote();
-    }, [amount, asset]);
+    }, [Number(amount) > 0 ]);
 
     const sendSOL = async () => {
         console.log("Sending", recipient, amount, sendVia);
