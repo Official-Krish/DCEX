@@ -1,5 +1,7 @@
+"use client"
 import { Box, CirclePlay, Clipboard, Lock, Zap } from "lucide-react";
 import { Button } from "../ui/button";
+import { signIn } from "next-auth/react";
 
 const features = [
     {
@@ -45,7 +47,7 @@ export default function Pitch() {
             </div>
 
             <div className="flex justify-center items-center space-x-6">
-                <Button className="flex bg-blue-500 hover:bg-blue-600 text-white px-7 py-7 font-bold text-lg rounded-xl">
+                <Button className="flex bg-blue-500 hover:bg-blue-600 text-white px-7 py-7 font-bold text-lg rounded-xl" onClick={() => signIn("google")}>
                     {<Box className="h-10 w-10"/>}
                     Get Started Now
                 </Button>
@@ -56,7 +58,7 @@ export default function Pitch() {
             </div>
 
             <div className="flex justify-center items-center">
-                <div className="w-[850px] h-[270px] bg-white shadow-xl rounded-2xl mt-16 border">
+                <div className="w-[850px] h-[270px] bg-white shadow-xl rounded-2xl mt-16">
                     <div className="flex justify-between px-6">
                     {features.map((feature, index) => (
                         <div key={index} className="flex flex-col items-center text-center p-6 bg-white mt-6">
