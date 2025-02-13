@@ -29,7 +29,7 @@ export default function Appbar() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 hover:scale-105 transition-transform cursor-pointer" onClick={() => router.push("/")}>
             <Coins className="h-8 w-8 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-900">WEB3</span>
+            <span className="text-2xl font-bold text-gray-900">DCEX</span>
           </div>
           <div className="hidden md:flex space-x-8 text-gray-600">
             <a href="#features" className="hover:text-blue-600 transition-colors hover:-translate-y-0.5 transform">Features</a>
