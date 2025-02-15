@@ -13,28 +13,28 @@ export default function Footer() {
                         <h3 className="text-2xl font-bold">DCEX</h3>
                         <p className="text-neutral-400">The simplest way to manage your digital assets with just a Google account.</p>
                         <div className="flex space-x-4">
-                            <a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">{<Twitter className="h-6 w-6"/>}</a>
-                            <a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">{<Github className="h-6 w-6"/>}</a>
-                            <a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">{<Linkedin className="h-6 w-6"/>}</a>
+                            <a href="#" className="text-neutral-400 hover:text-neutral-200">{<Twitter className="h-6 w-6"/>}</a>
+                            <a href="#" className="text-neutral-400 hover:text-neutral-200">{<Github className="h-6 w-6"/>}</a>
+                            <a href="#" className="text-neutral-400 hover:text-neutral-200">{<Linkedin className="h-6 w-6"/>}</a>
                         </div>
                     </div>
                     <div>
                         <h3 className="text-2xl font-bold mb-6">Quick Links</h3>
                         <ul className="space-y-3">
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">Exchange</a></li>
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">Portfolio</a></li>
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">Markets</a></li>
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">News</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">Exchange</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">Portfolio</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">Markets</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">News</a></li>
                         </ul>
                     </div>
 
                     <div className="space-y-6">
                         <h3 className="text-2xl font-bold">Resources</h3>
                         <ul className="space-y-3">
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">Documentation</a></li>
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">API</a></li>
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">Support</a></li>
-                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200 hover:underline">FAQ</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">Documentation</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">API</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">Support</a></li>
+                            <li><a href="#" className="text-neutral-400 hover:text-neutral-200">FAQ</a></li>
                         </ul>
                     </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
 
                 <div className="mt-16 pt-8 border-t border-neutral-800">
                     <div className="flex justify-between items-center">
-                        <p className="text-sm text-neutral-400">© 2025 Web3Wallet. All rights reserved.</p>
+                        <p className="text-sm text-neutral-400">© 2025 DCEX. All rights reserved.</p>
 
                         <div className="flex space-x-4">
                             <a href="#" className="text-neutral-400 hover:text-white transition-colors text-sm">Privacy Policy</a>

@@ -25,7 +25,7 @@ export default function Appbar() {
 
   return (
     <div>
-      <nav className="fixed container mx-auto px-6 py-4 top-0 bg-white/80 backdrop-blur-lg z-50">
+      <nav className="fixed mx-auto px-6 py-4 top-0 bg-white/80 backdrop-blur-lg z-50 w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 hover:scale-105 transition-transform cursor-pointer" onClick={() => router.push("/")}>
             <Coins className="h-8 w-8 text-blue-600" />

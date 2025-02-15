@@ -22,7 +22,7 @@ const features = [
 
 export default function Security() {
     return (
-        <div className="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden ">
+        <div className="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
             <div className="absolute inset-0">
                 <div className="absolute w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px] -top-48 -right-48 animate-pulse"></div>
                 <div className="absolute w-[500px] h-[500px] bg-emerald-100/50 rounded-full blur-[100px] -bottom-48 -left-48 animate-pulse"></div>

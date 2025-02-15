@@ -26,12 +26,15 @@ export default function DashboardProfile({ publicKey }: { publicKey: string }) {
     const router = useRouter();
 
     if (!session.data?.user){
-        alert("Please login to access your dashboard");
         router.push("/");
     }
 
     return <div>
-        <div className="bg-slate-100 flex flex-col justify-center items-center ">
+        <div className="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden flex flex-col justify-center items-center ">
+            <div className="inset-0">
+                <div className="absolute w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px] -top-48 -right-48 animate-pulse"></div>
+                <div className="absolute w-[500px] h-[500px] bg-emerald-100/50 rounded-full blur-[100px] -bottom-48 -left-48 animate-pulse"></div>
+            </div>
             <div className="shadow-lg rounded-lg bg-white w-[800px] h-[350px] p-4 mt-12">
                 <UserInfo publicKey={publicKey} />
                 <div className="px-6 py-3">
