@@ -5,8 +5,6 @@ import TokenList from "./TokenList";
 import UserInfo from "./UserInfo";
 import Swap from "./Swap";
 import Send from "./Send";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Withdraw from "./Withdraw";
 
 enum Options {
@@ -22,12 +20,6 @@ type tabs = "tokens" | "Send" | "AddFunds" | "Withdraw" | "Swap";
 export default function DashboardProfile({ publicKey }: { publicKey: string }) {
     const [option, setOption] = useState<Options>(Options.Send);
     const [ tab, setTab ] = useState<tabs>("tokens");
-    const session = useSession();
-    const router = useRouter();
-
-    if (!session.data?.user){
-        router.push("/");
-    }
 
     return <div>
         <div className="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden flex flex-col justify-center items-center ">

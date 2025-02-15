@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     domains: ["lh3.googleusercontent.com",
-      "upload.wikimedia.org"
+      "upload.wikimedia.org",
+      "tiplink.io"
     ],
   },
 
