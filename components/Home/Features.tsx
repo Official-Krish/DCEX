@@ -48,7 +48,7 @@ export default function Features () {
             <div className="mt-16">
                 <div className="flex justify-center items-center">
                     {features.map((feature, index) => (
-                        <div className="bg-white rounded-xl p-4 w-[410px] h-[390px] border shadow-xl m-3 mr-3 hover:shadow-2xl ease-in-out transition-all duration-200">
+                        <div key={index} className="bg-white rounded-xl p-4 w-[410px] h-[390px] border shadow-xl m-3 mr-3 hover:shadow-2xl ease-in-out transition-all duration-200">
                             <div className="px-4 py-4">
                                 <div className={`${feature.bg} rounded-3xl text-3xl h-16 w-16 flex justify-center items-center`}>{feature.icon}</div>
                                 <h3 className="text-xl font-bold mt-7">{feature.title}</h3>

@@ -118,6 +118,7 @@ function getPrivateKeyFromDb(privateKey: string): Keypair {
         const privateKeyUintArr = Uint8Array.from(arr);
         return Keypair.fromSecretKey(privateKeyUintArr);
     } catch (e) {
+        console.error("Failed to process private key:", e);
         throw new Error("Failed to process private key");
     }
 }

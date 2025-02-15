@@ -21,6 +21,7 @@ export const authConfig = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         session: ({ session, token }: any): session => {
             const newSession: session = session as session;
             if (newSession.user && token.uid) {
@@ -28,7 +29,8 @@ export const authConfig = {
             }
             return newSession!;
         },
-        async jwt({ token, account, profile }: any) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async jwt({ token, account }: any) {
             const user = await prisma.user.findFirst({
                 where: {
                     sub: account?.providerAccountId ?? ""
@@ -39,8 +41,8 @@ export const authConfig = {
             }
             return token
         },
-
-        async signIn({user, account, profile, email, credentials}: any) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async signIn({user, account, profile }: any) {
             if (account?.provider === "google") {
                 const email = user.email;
                 if(!email) return false;
@@ -60,6 +62,7 @@ export const authConfig = {
                     data: {
                         username: email,
                         name: profile?.name,
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         profileImage: (profile as any)?.picture || "Https://www.gravatar.com/avatar/",
                         provider: "GOOGLE",
                         solWallet: {

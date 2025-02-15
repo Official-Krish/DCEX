@@ -1,5 +1,6 @@
 import { SUPPORTED_TOKENS, TokenDetails } from "@/lib/tokens";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import Image from "next/image";
 
 export default function AssetSelector({ onSelect, selectedToken }: {
     onSelect: (asset: TokenDetails) => void;
@@ -18,7 +19,7 @@ export default function AssetSelector({ onSelect, selectedToken }: {
                     <SelectItem key={token.name} value={token.name}>
                         <div className="flex items-center w-full text-slate-900 font-semibold text-lg">
                             <span className="mr-1 text-slate-500 font-semibold text-lg">Asset:</span>
-                            <img src={token.image} alt={token.name} className="w-6 h-6 rounded-full mr-1" />
+                            <Image src={token.image} alt={token.name} width={30} height={30} className="rounded-full mr-1" />
                              {token.name}
                         </div>
                     </SelectItem>

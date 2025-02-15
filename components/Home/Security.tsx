@@ -35,7 +35,7 @@ export default function Security() {
                             <h1 className="text-slate-800 font-bold text-4xl">Bank-Grade Security for Your Digital Assets</h1>
                             <h2 className="text-lg font-normal text-neutral-700 py-5 mb-3">Your security is our top priority. We implement multiple layers of protection to ensure your assets are safe.</h2>
                             {features.map((feature, index) => (
-                                <div className="flex mb-7">
+                                <div key={index} className="flex mb-7">
                                     <div className={`rounded-xl text-lg ${feature.bgColor} h-[50px] w-[50px] flex justify-center items-center`} >{feature.icon}</div>
                                     <div className="ml-4">
                                         <h3 className="text-lg font-semibold mb-1">{feature.title}</h3>

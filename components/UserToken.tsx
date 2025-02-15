@@ -1,5 +1,6 @@
 import { useTokens } from "@/app/api/hooks/useTokens";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export function UserTokens({ publicKey }: { publicKey: string }) {
     const { tokenBalances, loading } = useTokens(publicKey);
@@ -12,7 +13,7 @@ export function UserTokens({ publicKey }: { publicKey: string }) {
                 <div key={index} className="flex justify-between mt-2">
                     <div key={index} className="flex py-3 px-4">
                         <div key={index} className="flex items-center">
-                            <img 
+                            <Image 
                                 src={token.image} 
                                 alt={token.name} 
                                 width={30} 

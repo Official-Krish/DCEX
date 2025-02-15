@@ -9,10 +9,30 @@ import { useDebounce } from "@/app/api/hooks/useDebounce";
 
 type sendOptions = "link" | "email" | "address";
 
+interface Token {
+    name: string;
+    mint: string;
+    native: boolean;
+    price: string;
+    image: string;
+    decimals: number;
+    balance: string;
+    usdBalance: string;
+}
+
+interface TokenResponse {
+    tokens: Token[];
+    totalBalance: number;
+}
+
 export default function Send({ publicKey, onclose }: { publicKey: string, onclose: () => void }) {
     const { tokenBalances, loading } = useTokens(publicKey);
     const [steps, setSteps] = useState(0);
     const [sendOption, setSendOption] = useState<sendOptions>();
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div className="bg-gray-50 py-6 w-full h-full border border-slate-200 rounded-lg shadow-lg">
@@ -77,7 +97,7 @@ export default function Send({ publicKey, onclose }: { publicKey: string, onclos
                             title="Send to Email"
                             description="Send funds to an email you specify:"
                             onclose={() => setSteps(0)} 
-                            tokenBalances={tokenBalances}
+                            tokenBalances={tokenBalances!}
                             Recieptant_Option="Recipient's Email"
                             sendVia={sendOption}
                         />}
@@ -85,7 +105,7 @@ export default function Send({ publicKey, onclose }: { publicKey: string, onclos
                             title="Send to Solana Wallet Address "
                             description="Send funds to a Solana wallet address you specify."
                             onclose={() => setSteps(0)} 
-                            tokenBalances={tokenBalances}
+                            tokenBalances={tokenBalances!}
                             Recieptant_Option="Recipient's Solana Address"
                             sendVia="address"
                         />}
@@ -122,7 +142,7 @@ export function SendOptions({ icon, title, description, topBorderEnabled, bottom
 
 export function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, sendVia, title, description }: { 
     onclose: () => void, 
-    tokenBalances: any, 
+    tokenBalances: TokenResponse, 
     Recieptant_Option: string, 
     sendVia: string,
     title: string,
@@ -156,7 +176,8 @@ export function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, send
 
     useEffect(() => {
         debouncedGetQuote();
-    }, [Number(amount) > 0 ]);
+    }, [debouncedGetQuote]);
+
 
     const sendSOL = async () => {
         console.log("Sending", recipient, amount, sendVia);
@@ -170,6 +191,7 @@ export function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, send
                 alert("Transaction sent!");
             }
         } catch(e) {
+            console.error(e);
             alert("Transaction failed!");
         }
     }
@@ -186,7 +208,7 @@ export function SendToAddress ({ onclose, tokenBalances, Recieptant_Option, send
                 {<AssetSelector onSelect={(asset) => setAsset(asset)} selectedToken={SUPPORTED_TOKENS[0]}/>}
             </div>
             <div className="flex justify-center font-sm text-slate-500 text-sm">
-                Account available SOL: {<span className="font-semibold ml-1">{tokenBalances?.tokens.find((x: any) => x.name === asset.name)?.balance} {asset.name}</span>}
+                Account available SOL: {<span className="font-semibold ml-1">{tokenBalances?.tokens.find((x) => x.name === asset.name)?.balance} {asset.name}</span>}
             </div>
 
             <div className="py-2">

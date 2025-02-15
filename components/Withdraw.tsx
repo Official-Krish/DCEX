@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { SendOptions, SendToAddress } from "./Send";
+import { SendOptions } from "./Send";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { ArrowLeft, Wallet2 } from "lucide-react";
 import AssetSelector from "./AssetSelector";
@@ -94,7 +94,7 @@ function WithdrawSOL ({ onclose, publicKey, title, description, recipientPublicK
                 {<AssetSelector onSelect={(asset) => setAsset(asset)} selectedToken={SUPPORTED_TOKENS[0]}/>}
             </div>
             <div className="flex justify-center font-sm text-slate-500 text-sm">
-                Account available SOL: {<span className="font-semibold ml-1">{tokenBalances?.tokens.find((x: any) => x.name === asset.name)?.balance} {asset.name}</span>}
+                Account available SOL: {<span className="font-semibold ml-1">{tokenBalances?.tokens.find((x) => x.name === asset.name)?.balance} {asset.name}</span>}
             </div>
 
             <div className="py-2">

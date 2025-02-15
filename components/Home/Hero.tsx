@@ -1,9 +1,7 @@
 "use client";
-
 import { Check, CircleCheck } from "lucide-react";
 import { Button } from "../ui/button";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const steps = [
     "Google Account Integration",
@@ -12,16 +10,10 @@ const steps = [
 ]
 
 export default function Hero() {
-    const router = useRouter(); 
-    const session = useSession();
-
-    if (session.data?.user) {
-        router.push("/dashboard");
-    }
     return (
         <div className="grid grid-cols-2 pt-24 min-h-[70vh] bg-gradient-to-br from-blue-50 to-white">
             <div className="p-12">
-                <h1 className="text-6xl font-bold text-slate-800">The World's Simplest</h1> 
+                <h1 className="text-6xl font-bold text-slate-800">The World&apos;s Simplest</h1>
                 <h2 className="text-6xl font-bold text-blue-500">Web3 Wallet</h2>
 
                 <h3 className="text-lg font-normal text-neutral-600 mt-8">Create or login to your secured wallet with just a Google Account. Send digital assets at scale, even to non-crypto users.</h3>

@@ -4,14 +4,58 @@ import { Connection, Keypair, VersionedTransaction } from "@solana/web3.js";
 import { authConfig } from "@/lib/auth";
 import prisma from "@/lib/db";
 
+interface Quote {
+    "inputMint": string,
+    "inAmount": string,
+    "outputMint": string,
+    "outAmount": string,
+    "otherAmountThreshold":string,
+    "swapMode": string,
+    "slippageBps": number,
+    "platformFee": null,
+    "priceImpactPct": string,
+    "routePlan": [
+        {
+            "swapInfo": {
+                "ammKey": string,
+                "label": string,
+                "inputMint": string,
+                "outputMint": string,
+                "inAmount": string,
+                "outAmount": string,
+                "feeAmount": string,
+                "feeMint": string
+            },
+            "percent": number
+        },
+        {
+            "swapInfo": {
+                "ammKey": string
+                "label": string,
+                "inputMint": string,
+                "outputMint": string,
+                "inAmount": string,
+                "outAmount": string,
+                "feeAmount": string,
+                "feeMint": string
+            },
+            "percent": number
+        }
+    ],
+    "scoreReport": null,
+    "contextSlot": number,
+    "timeTaken": number,
+    "swapUsdValue": string,
+    "simplerRouteUsed": boolean
+}
+
 export async function POST(req: NextRequest) {
     const connection = new Connection(process.env.SOLANA_CLUSTER_URL || "https://api.mainnet-beta.solana.com");
     const data: {
-        quoteResponse: any
+        quoteResponse: Quote
     } = await req.json();
 
     const session = await getServerSession(authConfig);
-    console.log(session)
     if (!session?.user) {
         return NextResponse.json({
             message: "You are not logged in"
@@ -56,7 +100,7 @@ export async function POST(req: NextRequest) {
       console.log("Jup returned txn")
 
       const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
-      var transaction = VersionedTransaction.deserialize(swapTransactionBuf);
+      const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
       const privateKey = getPrivateKeyFromDb(solWallet.privateKey)
       transaction.sign([privateKey]);
       const latestBlockHash = await connection.getLatestBlockhash();

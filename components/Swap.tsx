@@ -1,11 +1,12 @@
 import { useTokens } from "@/app/api/hooks/useTokens";
 import { SUPPORTED_TOKENS, TokenDetails } from "@/lib/tokens";
-import { ArrowUpDown, Check, Loader2, MoveLeft } from "lucide-react"
+import { ArrowUpDown, Loader2, MoveLeft } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import axios from "axios";
 import { useDebounce } from "@/app/api/hooks/useDebounce";
 import ConfirmButton from "./Buttons/ConfirmButton";
+import Image from "next/image";
 
 export default function Swap({ publicKey, onClose }: { publicKey: string, onClose: () => void }) {
     const { tokenBalances, loading } = useTokens(publicKey);
@@ -33,11 +34,11 @@ export default function Swap({ publicKey, onClose }: { publicKey: string, onClos
         }
     };
 
-    const debouncedGetQuote = useDebounce(getQuote, 500);
+    const debouncedGetQuote = useDebounce(getQuote, 1000);
 
     useEffect(() => {
         debouncedGetQuote();
-    }, [baseAsset, baseAmount, quoteAsset]);
+    }, [baseAsset, baseAmount, quoteAsset, debouncedGetQuote]);
 
 
     const SwapButton = async () => {
@@ -89,7 +90,7 @@ export default function Swap({ publicKey, onClose }: { publicKey: string, onClos
             />
             <div className="flex justify-center">
                 <div onClick={() => {
-                    let baseAssetTemp = baseAsset;
+                    const baseAssetTemp = baseAsset;
                     setBaseAsset(quoteAsset);
                     setQuoteAsset(baseAssetTemp);
                 }} className="cursor-pointer rounded-full w-10 h-10 border absolute mt-[-20px] bg-white flex justify-center pt-2">
@@ -174,7 +175,7 @@ function AssetSelector({ onSelect, selectedToken }: {
                 {SUPPORTED_TOKENS.map((token) => (
                     <SelectItem key={token.name} value={token.name}>
                         <div className="flex items-center">
-                            <img src={token.image} alt={token.name} className="w-6 h-6 rounded-full mr-1" />
+                            <Image src={token.image} alt={token.name} className="w-6 h-6 rounded-full mr-1" width={30} height={30} />
                             {token.name}
                         </div>
                     </SelectItem>

@@ -1,37 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-export const useDebounce = (callback: any, delay: number) => {
-    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+export const useDebounce = (callback: (...args: string[]) => Promise<void>, delay: number) => {
+    const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
-    const debouncedCallback = useCallback((...args: any) => {
-        // Clear any existing timeout
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-
-        // Set new timeout
-        const newTimeoutId = setTimeout(() => {
-            callback(...args);
-        }, delay);
-
-        setTimeoutId(newTimeoutId);
-
-        // Cleanup function
-        return () => {
-            if (newTimeoutId) {
-                clearTimeout(newTimeoutId);
+    const debouncedCallback = useCallback(
+        (...args: string[]) => {
+            // Clear any existing timeout
+            if (timeoutIdRef.current) {
+                clearTimeout(timeoutIdRef.current);
             }
-        };
-    }, [callback, delay, timeoutId]);
+
+            // Set new timeout
+            timeoutIdRef.current = setTimeout(() => {
+                callback(...args);
+            }, delay);
+        },
+        [callback, delay]
+    );
 
     // Cleanup on unmount
     useEffect(() => {
         return () => {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
+            if (timeoutIdRef.current) {
+                clearTimeout(timeoutIdRef.current);
             }
         };
-    }, [timeoutId]);
+    }, []);
 
     return debouncedCallback;
 };

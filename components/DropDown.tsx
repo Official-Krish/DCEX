@@ -1,6 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export const UserDropdown = () => {
     const session = useSession();
@@ -8,7 +9,7 @@ export const UserDropdown = () => {
     const Avatar = () => {
         return (
             <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden rounded-full bg-gray-600">
-                <img src={session.data?.user?.image || ""} alt="Avatar" className="w-full h-full rounded-full" />
+                <Image src={session.data?.user?.image || ""} alt="Avatar" className="w-full h-full rounded-full" width={50} height={50} />
             </div>
         );
     };

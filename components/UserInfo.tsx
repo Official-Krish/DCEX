@@ -108,7 +108,7 @@ function CopyAlertDialog({ publicKey }: { publicKey: string }) {
                         <div className="bg-blue-50 rounded-lg h-[420px] w-[450px]">
                             <div className="relative h-full">
                                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                                    <img src={data} alt="QR Code" className="w-60 h-60 rounded-xl" />
+                                    <Image src={data} alt="QR Code" className="w-60 h-60 rounded-xl" width={300} height={300} />
                                     <div className="px-4 py-6">
                                         <button className="p-3 flex bg-white h-14 w-full rounded-full items-center" onClick={() => handleCopy()}>
                                             <input type="text" value={publicKey.slice(0, 4) + "..." + publicKey.slice(-4)} readOnly= {true} className="w-full rounded-3xl flex items-center justify-center text-center h-14 text-md outline-0 border-none bg-transparent" />
@@ -132,7 +132,7 @@ function CopyAlertDialog({ publicKey }: { publicKey: string }) {
                             onClick={() => window.location.href = `https://solscan.io/account/${publicKey}`}
                         >
                             <div className="flex items-center">
-                                <img
+                                <Image
                                     src="https://tiplink.io/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fsolscan.0297f978.png&w=640&q=75"
                                     alt="SolScan"
                                     width={20}
