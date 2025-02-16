@@ -122,7 +122,7 @@ export function SendOptions({ icon, title, description, topBorderEnabled, bottom
     description: string, 
     topBorderEnabled?: boolean, 
     bottomBorderEnabled?: boolean,
-    onclick?: () => void 
+    onclick?: (() => void) 
 }) {
     return (
         <div className={`w-full h-20 border border-slate-200 rounded-xl bg-white cursor-pointer ${topBorderEnabled ? "rounded-b-lg" : ""} ${bottomBorderEnabled ? "rounded-t-lg" : ""}`} onClick={onclick}>

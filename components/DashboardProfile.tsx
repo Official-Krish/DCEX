@@ -6,6 +6,7 @@ import UserInfo from "./UserInfo";
 import Swap from "./Swap";
 import Send from "./Send";
 import Withdraw from "./Withdraw";
+import AddFunds from "./AddFunds";
 
 enum Options {
     Send = "Send",
@@ -70,6 +71,7 @@ export default function DashboardProfile({ publicKey }: { publicKey: string }) {
                 {tab === "Swap" && <Swap publicKey={publicKey} onClose={() => setTab("tokens")} />}
                 {tab === "Send" && <Send onclose={() => setTab("tokens")} publicKey={publicKey} />}
                 {tab === "Withdraw" && <Withdraw onclose={() => setTab("tokens")} publicKey={publicKey} />}
+                {tab === "AddFunds" && <AddFunds onclose={() => setTab("tokens")} publicKey={publicKey} />}
             </div>
         </div>
     </div>
