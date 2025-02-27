@@ -50,7 +50,7 @@ interface Quote {
 }
 
 export async function POST(req: NextRequest) {
-    const connection = new Connection(process.env.SOLANA_CLUSTER_URL || "https://api.mainnet-beta.solana.com");
+    const connection = new Connection(process.env.NEXT_PUBLIC_SOLANA_CLUSTER_URL || "https://api.mainnet-beta.solana.com");
     const data: {
         quoteResponse: Quote
     } = await req.json();

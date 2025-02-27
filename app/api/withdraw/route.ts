@@ -9,11 +9,11 @@ const MAX_AMOUNT = 1000;
 const MIN_AMOUNT = 0.000001;
 
 export async function POST (req: NextRequest) {
-    if (!process.env.SOLANA_CLUSTER_URL) {
+    if (!process.env.NEXT_PUBLIC_SOLANA_CLUSTER_URL) {
         throw new Error("SOLANA_CLUSTER_URL is not configured");
     }
 
-    const connection = new Connection(process.env.SOLANA_CLUSTER_URL);
+    const connection = new Connection(process.env.NEXT_PUBLIC_SOLANA_CLUSTER_URL);
 
     const session = await getServerSession(authConfig);
 

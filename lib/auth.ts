@@ -2,6 +2,10 @@ import prisma from "@/lib/db";
 import GoogleProvider from "next-auth/providers/google";
 import {Keypair} from "@solana/web3.js";
 import { Session } from "next-auth";
+import crypto from "crypto";
+import { encryptSecret } from "./crypto";
+import { split } from 'shamir-secret-sharing';
+
 
 export interface session extends Session {
     user: {
@@ -57,6 +61,8 @@ export const authConfig = {
                 const keypair = Keypair.generate();
                 const publicKey = keypair.publicKey.toBase58();
                 const privateKey = keypair.secretKey;
+                const encryptedSecret = encryptSecret(privateKey.toString() , process.env.ENCRYPTION_KEY ?? "");
+                const shares = split(Buffer.from(encryptedSecret), 5, 3);
 
                 await prisma.user.create({
                     data: {
@@ -68,7 +74,7 @@ export const authConfig = {
                         solWallet: {
                             create: {
                                 publicKey: publicKey,
-                                privateKey: privateKey.toString(),
+                                privateKey: (await shares as Buffer[]).map(share => share.toString()),
                             }
                         },
                         inrWallet: {
