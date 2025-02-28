@@ -1,4 +1,5 @@
 import { authConfig } from "@/lib/auth";
+import { reconstructPrivateKey } from "@/lib/crypto";
 import prisma from "@/lib/db";
 import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from "@solana/web3.js";
 import { getServerSession } from "next-auth";
@@ -83,7 +84,8 @@ export async function POST (req: NextRequest) {
             })
         );
 
-        const privateKey = getPrivateKeyFromDb(solWallet.privateKey);
+        const getPrivateKey = await reconstructPrivateKey(solWallet.privateKey);
+        const privateKey = getPrivateKeyFromDb(getPrivateKey);
         const signature = await sendAndConfirmTransaction(
             connection, 
             transaction, 

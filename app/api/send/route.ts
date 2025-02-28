@@ -1,4 +1,5 @@
 import { authConfig } from "@/lib/auth";
+import { reconstructPrivateKey, splitPrivateKey } from "@/lib/crypto";
 import prisma from "@/lib/db";
 import { 
     Connection, 
@@ -113,7 +114,8 @@ export async function POST(req: NextRequest) {
             })
         );
 
-        const privateKey = getPrivateKeyFromDb(solWallet.privateKey);
+        const getPrvivateKey = await reconstructPrivateKey(solWallet.privateKey);
+        const privateKey = getPrivateKeyFromDb(getPrvivateKey);
         const signature = await sendAndConfirmTransaction(
             connection, 
             transaction, 
@@ -156,7 +158,8 @@ function getPrivateKeyFromDb(privateKey: string): Keypair {
 async function createNewAccount(email: string): Promise<string> {
     const keypair = Keypair.generate();
     const publicKey = keypair.publicKey.toBase58();
-    const privateKey = keypair.secretKey;
+    const privateKey = keypair.secretKey.toString();
+    const encrptPrivateKey = await splitPrivateKey(privateKey, 5);
 
     await prisma.user.create({
         data: {
@@ -167,7 +170,7 @@ async function createNewAccount(email: string): Promise<string> {
             solWallet: {
                 create: {
                     publicKey: publicKey,
-                    privateKey: privateKey.toString(),
+                    privateKey: encrptPrivateKey,
                 }
             },
             inrWallet: {

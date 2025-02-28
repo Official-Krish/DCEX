@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Connection, Keypair, VersionedTransaction } from "@solana/web3.js";
 import { authConfig } from "@/lib/auth";
 import prisma from "@/lib/db";
+import { reconstructPrivateKey } from "@/lib/crypto";
 
 interface Quote {
     "inputMint": string,
@@ -101,7 +102,8 @@ export async function POST(req: NextRequest) {
 
       const swapTransactionBuf = Buffer.from(swapTransaction, 'base64');
       const transaction = VersionedTransaction.deserialize(swapTransactionBuf);
-      const privateKey = getPrivateKeyFromDb(solWallet.privateKey)
+      const getPrvivateKey = await reconstructPrivateKey(solWallet.privateKey);
+      const privateKey = getPrivateKeyFromDb(getPrvivateKey);
       transaction.sign([privateKey]);
       const latestBlockHash = await connection.getLatestBlockhash();
 
