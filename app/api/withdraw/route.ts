@@ -5,7 +5,6 @@ import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransac
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-
 const MAX_AMOUNT = 1000; 
 const MIN_AMOUNT = 0.000001;
 
@@ -72,8 +71,6 @@ export async function POST (req: NextRequest) {
                 status: 400
             });
         }
-
-        
 
         const transaction = new Transaction();
         transaction.add(

@@ -38,7 +38,7 @@ const features = [
 
 export default function Features () {
     return (
-        <div className="bg-blue-50 min-h-screen">
+        <div id="features" className="bg-blue-50 min-h-screen">
             <div className="flex justify-center items-center">
                 <div className="max-w-2xl mt-24">
                     <h1 className="text-slate-800 font-bold text-4xl">Powerful Features, Simple Experience</h1>

@@ -40,7 +40,7 @@ export default function UserInfo({publicKey}: {publicKey: string}) {
 
         <div className="px-6 flex">
             <Wallet className="w-5 h-5 mr-1 text-slate-400" />
-            <h2 className="text-sm font-bold text-slate-400">TipLink Account Assets</h2>
+            <h2 className="text-sm font-bold text-slate-400">DCEX Account Assets</h2>
         </div>
 
         <div className="px-6 flex py-3 items-center justify-between">

@@ -23,7 +23,7 @@ const steps = [
 
 export default function StepsToStart() {
     return (
-        <div className="bg-gradient-to-b from-white to-blue-50 min-h-screen">
+        <div id="how-it-works" className="bg-gradient-to-b from-white to-blue-50 min-h-screen">
             <div className="flex justify-center items-center">
                 <div className="max-w-2xl mt-20 text-center mb-4">
                     <h1 className="text-slate-800 font-bold text-4xl">Simple Steps to Get Started</h1>
