@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dcex-staging
+  labels:
+    app: dcex-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dcex-staging
+  template:
+    metadata:
+      labels:
+        app: dcex-staging
+    spec:
+      containers:
+        - name: dcex-staging
+          image: krishanand/dcex:v1
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: env-file
+              mountPath: /app/.env
+              subPath: .env
+      volumes:
+        - name: env-file
+          secrets:
+            secretName: dcex-secret

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "cd ./prisma && pnpm dlx prisma generate && cd ../",
+    "db:migrate": "cd ./prisma && pnpm dlx prisma migrate dev && cd ../"
   },
   "dependencies": {
     "@prisma/client": "6.3.1",
