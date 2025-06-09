@@ -1,7 +1,7 @@
 "use client";
 import { Check, CircleCheck } from "lucide-react";
 import { Button } from "../ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 const steps = [
     "Google Account Integration",
@@ -10,6 +10,7 @@ const steps = [
 ]
 
 export default function Hero() {
+    const session = useSession();
     return (
         <div className="grid grid-cols-2 pt-24 min-h-[70vh] bg-gradient-to-br from-blue-50 to-white">
             <div className="p-12">
@@ -19,7 +20,10 @@ export default function Hero() {
                 <h3 className="text-lg font-normal text-neutral-600 mt-8">Create or login to your secured wallet with just a Google Account. Send digital assets at scale, even to non-crypto users.</h3>
                 <div className="mt-5 space-x-4">
                     <Button className="bg-blue-500 px-8 py-6 font-bold hover:bg-blue-600 shadow-lg" onClick={() => {
-                        signIn("google");
+                        session.data?.user
+                            ? window.location.href = "/dashboard"
+                            :
+                            signIn("google");
                     }}>Get Started</Button>
                     <Button className="bg-white text-slate-700 px-8 py-6 font-semibold border hover:bg-slate-50">Learn More</Button>
                 </div>

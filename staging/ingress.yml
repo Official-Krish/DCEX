@@ -2,15 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - DCEX.krishdev.xyz
-      secretName: DCEX-tls
+        - dcex.krishdev.xyz
+      secretName: dcex-tls
 
   rules:
-    - host: DCEX.krishdev.xyz
+    - host: dcex.krishdev.xyz
       http:
         paths:
           - path: /

@@ -8,7 +8,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,10 +19,16 @@ import {
 
 
 
+
 export default function Appbar() {
   const session = useSession();
   const router = useRouter();
   const { connected } = useWallet();
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    setPath(window.location.pathname);
+  }, []);
 
   return (
     <div>
@@ -32,7 +38,7 @@ export default function Appbar() {
             <Coins className="h-8 w-8 text-blue-600" />
             <span className="text-2xl font-bold text-gray-900">DCEX</span>
           </div>
-          {window.location.pathname === "/" && 
+          {path === "/" && 
             <div className="hidden md:flex space-x-8 text-gray-600">
               <a href="#features" className="hover:text-blue-600 transition-colors hover:-translate-y-0.5 transform">Features</a>
               <a href="#how-it-works" className="hover:text-blue-600 transition-colors hover:-translate-y-0.5 transform">How it Works</a>

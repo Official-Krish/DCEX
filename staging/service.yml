@@ -2,14 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dcex
-  namespace: dcex
-  labels:
-    app: dcex
 spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: 3000
-      protocol: TCP
   selector:
     app: dcex
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP

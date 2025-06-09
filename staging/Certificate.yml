@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: DCEX
+  name: dcex
   namespace: default
 spec:
-  secretName: DCEX-tls
+  secretName: dcex-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: DCEX.krishdev.xyz
+  commonName: dcex.krishdev.xyz
   dnsNames:
-  - DCEX.krishdev.xyz
+  - dcex.krishdev.xyz
